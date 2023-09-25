@@ -33,10 +33,10 @@ export const ProductDetailsPage = () => {
   const [product, setProduct] = useState<Product>();
   const { productId = '' } = useParams();
 
-  const fetchProductDetails = async (id: string) => {
+  const fetchProductDetails = async () => {
     setIsLoading(true);
     try {
-      const getDetailsFromServer = await getProductDetails(id);
+      const getDetailsFromServer = await getProductDetails(productId);
 
       setProductDetails(getDetailsFromServer);
       setMainPhoto(getDetailsFromServer?.images[0]);
@@ -67,7 +67,7 @@ export const ProductDetailsPage = () => {
   };
 
   useEffect(() => {
-    fetchProductDetails(productId);
+    fetchProductDetails();
     fetchProduct();
   }, [productId]);
 
@@ -95,12 +95,12 @@ export const ProductDetailsPage = () => {
         <BackButton />
       </div>
 
-      {!product && !isLoading && <PageNotFound />}
+      {!product && isError && !isLoading && <PageNotFound />}
 
       {!isError && !productDetails && isLoading && <Loader />}
 
       <div className="product-details__content">
-        {productDetails && (
+        {productDetails && product && (
           <>
             <h1 className="product-details__title">
               {productDetails?.name}
@@ -195,16 +195,17 @@ export const ProductDetailsPage = () => {
                 details={productDetails}
               />
             </div>
+
+            <div className="product-details__offer">
+              <ProductsSlider
+                title={ProductSection.RandomProducts}
+                products={products}
+              />
+            </div>
           </>
         )}
       </div>
 
-      <div className="product-details__offer">
-        <ProductsSlider
-          title={ProductSection.RandomProducts}
-          products={products}
-        />
-      </div>
     </section>
   );
 };
