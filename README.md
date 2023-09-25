@@ -1,4 +1,4 @@
-# The game 2048 is created on pure JavaScript.
+# Phone Catalog.
 
   - [DEMO LINK](https://Maks-Tsarenko.github.io/react_phone_catalog/)
 
